@@ -1,5 +1,6 @@
 package system;
 
+import java.util.Arrays;
 import java.util.stream.IntStream;
 
 import object.Tetris;
@@ -25,7 +26,7 @@ public class Map {
 	 * 配列mapの初期化
 	 */
 	private Map(){
-		//map配列のすべてにTetrisemptを代入
+		//map配列のすべてにTetriseeEmptyを代入
 		IntStream.range(0, map.length).forEach(s->IntStream.range(0, map[s].length).
 				forEach(t->IntStream.range(0, map[s][t].length).forEach(u->map[s][t][u]=new Tetris_Empty())));
 	}
@@ -36,11 +37,22 @@ public class Map {
 	public static Map getInstance(){
 		return instance;
 	}
-	
+	/**
+	 * コンソールにテトリスの出力
+	 */
 	public void putout(){
 		IntStream.range(0, map.length).forEach(s->IntStream.range(0, map[s].length).
 				forEach(t->IntStream.range(0, map[s][t].length).forEach(u->System.out.print(map[s][t][u].getType()))));
 	}
 	
+	
+	public int[][][] getTypeList(){
+		int[][][] intArray = new int[5][5][5];
+		IntStream.range(0, intArray.length).forEach(s->IntStream.range(0, intArray[s].length).
+				forEach(t->IntStream.range(0, intArray[s][t].length).forEach(u->intArray[s][t][u]=0)));
+		IntStream.range(0, map.length).forEach(s->IntStream.range(0, map[s].length).
+				forEach(t->IntStream.range(0, map[s][t].length).forEach(u->intArray[s][t][u]=map[s][t][u].getType())));
+		return intArray;
+	}
 
 }

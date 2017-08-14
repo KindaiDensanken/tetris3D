@@ -13,7 +13,12 @@ import javafx.scene.shape.Box;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Translate;
 import javafx.stage.Stage;
- 
+/**
+ * javafx３Dのためのクラス
+ * わからない(こなみかん
+ * @author isato
+ *
+ */
 public class FxApp extends Application
 {
 	public static Scene scene;
@@ -26,21 +31,29 @@ public class FxApp extends Application
     @Override
     public void start(Stage primaryStage) throws Exception
     {
+    	// TODO Auto-generated method stub
     	this.primaryStage=primaryStage;
         // ルートノードの作成
         Group       root        = create3DGroup();
         // カメラを設定
         Camera      camera      = new PerspectiveCamera( true );
-        camera.getTransforms().add( new Rotate( 30 , 0 , 0 , 0 , new Point3D( -1 , -1 , 0 ) ) );
-        camera.getTransforms().add( new Translate( 0.0 , 0.0 , -30 ) );
-        root.getChildren().add( camera );
-         
-        // 照明を設定
-        LightBase   light       = new PointLight();
+        /*
+        LightBase   light       = new AmbientLight();
         light.setTranslateX( 0.0 );
         light.setTranslateY( -20.0 );
         light.setTranslateZ( -30.0 );
         root.getChildren().add( light );
+        */
+        //カメラをz軸方向に-20移動
+        camera.getTransforms().addAll(new Translate(0,0,-80));
+        camera.setRotate(-30);
+        camera.setRotationAxis(Rotate.X_AXIS);
+    //    camera.getTransforms().add(new Rotate(10,Rotate.X_AXIS));
+//    ?    camera.getTransforms().add( new Translate( 0.0 , 0.0 , -30 ) );
+        root.getChildren().add( camera );
+         
+        // 照明を設定
+     
          
         // 3D用のーンを作成
         scene          = new Scene( root , 500 , 500 , true );
@@ -50,10 +63,45 @@ public class FxApp extends Application
         // ウィンドウ表示
         primaryStage.setScene( scene );
         primaryStage.show();
-         
+
     }
      
-    /**
+    private void fast() {
+		// TODO Auto-generated method stub
+    	this.primaryStage=primaryStage;
+        // ルートノードの作成
+        Group       root        = create3DGroup();
+        // カメラを設定
+        Camera      camera      = new PerspectiveCamera( true );
+        /*
+        LightBase   light       = new AmbientLight();
+        light.setTranslateX( 0.0 );
+        light.setTranslateY( -20.0 );
+        light.setTranslateZ( -30.0 );
+        root.getChildren().add( light );
+        */
+        //カメラをz軸方向に-20移動
+        camera.getTransforms().addAll(new Translate(0,0,-80));
+        camera.setRotate(-30);
+        camera.setRotationAxis(Rotate.X_AXIS);
+    //    camera.getTransforms().add(new Rotate(10,Rotate.X_AXIS));
+//    ?    camera.getTransforms().add( new Translate( 0.0 , 0.0 , -30 ) );
+        root.getChildren().add( camera );
+         
+        // 照明を設定
+     
+         
+        // 3D用のーンを作成
+        scene          = new Scene( root , 500 , 500 , true );
+        scene.setFill( Color.BLACK );
+        scene.setCamera( camera );
+         
+        // ウィンドウ表示
+        primaryStage.setScene( scene );
+        primaryStage.show();
+	}
+
+	/**
      * 3Dオブジェクトのグループを作成する
      * @return
      */
@@ -64,11 +112,11 @@ public class FxApp extends Application
          
         // BOXを作成
         Box         box         = new Box();
-        box.setWidth( 2 );
-        box.setHeight( 2 );
-        box.setDepth( 2 );
-        box.setTranslateX( -5 );
-        box.setTranslateY( -3 );
+        box.setWidth( 15 );
+        box.setHeight(15);
+        box.setDepth( 15);
+     //   box.setTranslateX( 0 );
+      //  box.setTranslateY( 0 );
         root.getChildren().add( box );
          /*
         // 球の作成
@@ -131,5 +179,4 @@ public class FxApp extends Application
          */
         return root;
     }
- 
 }
