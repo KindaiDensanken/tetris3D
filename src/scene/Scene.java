@@ -1,21 +1,50 @@
 package scene;
-import gui.FxApp;
 
+/**
+ * シーンの切り替えを担うクラス(fpsとupdateの処理もここで行なっている)
+ * 
+ * @author tachibana
+ *
+ */
 public  class Scene {
 	// TODO Auto-generated method stub
 	//javafxの起動
 	private static Scene instance = new Scene();
+	/**
+	 * 1fpsごとに実装するクラスへの参照
+	 */
+	private Updatable updatable;
+	/**
+	 * 次にアップデートするシーン
+	 */
+	private Updatable nextUpdatable;
+	/**
+	 * コンストラクタ
+	 */
 	private  Scene(){
 		
 	}
-	
+	/**
+	 * 唯一のインスタンスへのアクセス
+	 * @return
+	 */
 	public static Scene getInstance() {
 		// TODO Auto-generated method stub
 		return instance;
 	}
 
-	public  void UpdateByFps(String[] args,Updatable updatable){
-	FxApp.call(args);
+	/**
+	 * シーンのセット
+	 * @param nextUpdate
+	 */
+	public void setScene(Updatable nextUpdate){
+		nextUpdatable=nextUpdate;
+	}
+	
+	/**
+	 * 
+	 */
+	public  void UpdateByFps(){
 	long error = 0;  
 	int fps = 60;  
 	long idealSleep = (1000 << 16) / fps;  

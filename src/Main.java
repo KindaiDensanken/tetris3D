@@ -120,7 +120,7 @@ public class Main  extends Application implements Updatable{
         // シーングラフのルートを作成
     	
       root        = new Group();
-      int[][][] list = Map.getInstance().getTypeList();
+      int[][][] list = Map.getInstance().getMap();
       ArrayList<Box> boxList = new ArrayList<Box>();
       if(count>5){
     	  list[0][0][0]= 3;
@@ -150,7 +150,7 @@ public class Main  extends Application implements Updatable{
      */
     private Box createBox(int x ,int y,int z){
     	 Box         box         = new Box();
-         box.setWidth( 3 );
+         box.setWidth( 3);
          box.setHeight(3);
          box.setDepth( 3);
          box.getTransforms().add(new Translate(-7.5+3*x,-y*3,-7.5+3*z));
