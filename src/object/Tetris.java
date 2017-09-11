@@ -1,7 +1,9 @@
 package object;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
+import java.util.stream.IntStream;
 
 import system.Map;
 import system.PointOf3D;
@@ -16,8 +18,10 @@ public abstract class Tetris {
 	 * テトリスのある座標の起点
 	 */
 	protected PointOf3D controllPoint;
-	
-	public static final int MAPSIZE=5;
+	/**
+	 * 配列（map)の大きさ
+	 */
+	public static final int MAPSIZE=Map.SIZE;
 	
 	/**
 	 * 機転からの座標のリスト
@@ -48,6 +52,20 @@ public abstract class Tetris {
 		}else return false;//y<=の場合falseとなる
 		return true;
 	}
+	/**
+	 * xz平面でforwardに１移動するメソッド
+	 * @return 動けた場合true,動けなかった場合false
+	 */
+	public boolean moveForward(){
+		int temp = controllPoint.getZ();
+		controllPoint.setZ(temp+1);
+		
+		if(!checkMap()) {
+			controllPoint.setZ(temp);
+			return false;
+		}
+		return true;
+	}
 	
 	/**
 	 * y軸方向にテトリスブロックが90°回転するメソッド
@@ -57,13 +75,22 @@ public abstract class Tetris {
 		ArrayList<PointOf3D> clone = new ArrayList<PointOf3D>(pointList); //回転できなかった場合の為クローン
 		Iterator<PointOf3D> itr = pointList.iterator();
 		while(itr.hasNext()){
+			
 			PointOf3D p = itr.next();
+			System.out.println(p.getX()+","+p.getY());
 			p.rotateY();
+			System.out.println(p.getX()+","+p.getY());
+			System.out.println("----");
 		}
 		//回転後が正しい座標形態にあるか
 		if(checkMap()){
+			System.out.println("rotate_1 succeed");
+			//
+			assignMap();
+			
 			return true;
 		}else{
+			System.out.println("rotate_1　failed");
 			pointList = clone;
 			return false;
 		}
@@ -85,6 +112,7 @@ public abstract class Tetris {
 		
 		//回転後が正しい座標形態にあるか
 		if(checkMap()){
+			assignMap();
 			return true;
 		}else{
 			pointList = clone;
@@ -95,21 +123,25 @@ public abstract class Tetris {
 	 * pointListの座標をmapに直した時に問題ないかチェック
 	 * @return
 	 */
-	protected boolean checkMap(){
+	public boolean checkMap(){
 		//pointList
 		Iterator<PointOf3D> itr = pointList.iterator();
 		while(itr.hasNext()){
 			PointOf3D p = itr.next();
 			int x = controllPoint.getX()+p.getX();
-			int y = controllPoint.getX()+p.getX();
-			int z = controllPoint.getX()+p.getX();
+			int y = controllPoint.getY()+p.getY();
+			int z = controllPoint.getZ()+p.getZ();
 			if(x<0||4<x||y<0||4<y||z<0||4<z){
+				System.out.println("checkmap failed 1 x="+x+"y:"+y+"z:");
 				return false;
 			}
 			
 			try{//例外処理
-			if(Map.getInstance().getTetris(x, y, z)!=0)
+			if(Map.getInstance().getUncontrolTetris(x, y, z)!=0) {
+				System.out.println("checkmap failed 2");
+				Map.getInstance().putoutuncout();
 				return false;
+			}
 			}catch(ArrayIndexOutOfBoundsException e){
 				e.printStackTrace();
 				return false;
@@ -120,21 +152,38 @@ public abstract class Tetris {
 	/**
 	 * mapに代入
 	 */
-	protected void assignMap(){
+	public void assignMap(){
 		
-			int[][][] map = Map.getInstance().getMap();//integerかint[]であるので変更がそのまま反映される
+			int[][][] newmap = new int[MAPSIZE][MAPSIZE][MAPSIZE]; 
+			IntStream.range(0, newmap.length).forEach(s->IntStream.range(0, newmap[s].length).
+					forEach(t->IntStream.range(0, newmap[s][t].length).forEach(u->newmap[s][t][u]=0)));
 			Iterator<PointOf3D> itr = pointList.iterator();
 			while(itr.hasNext()){
 				PointOf3D p = itr.next();
 				int x = controllPoint.getX()+p.getX();
-				int y = controllPoint.getX()+p.getX();
-				int z = controllPoint.getX()+p.getX();
+				int y = controllPoint.getY()+p.getY();
+				int z = controllPoint.getZ()+p.getZ();
 				
 				try{
-					map[x][y][z]=getType();
+					Map.getInstance().putoutuncout();
+					newmap[x][y][z]=getType();
+					Map.getInstance().putoutuncout();
 				}catch(ArrayIndexOutOfBoundsException e){
+					//init();
 					e.printStackTrace();
 				}
 			}
+			int[][][] uncout = new int[MAPSIZE][MAPSIZE][MAPSIZE]; 
+			uncout = Map.getInstance().getUncotrolMap();
+
+			//newmapにuncounｔmapを合わせる処理を記述
+			for(int s = 0 ; s<MAPSIZE;s++)
+				for(int t = 0 ; t<MAPSIZE ; t++)
+					for(int u = 0 ;u <MAPSIZE;u++) {
+						if(uncout[s][t][u]>0) {
+							newmap[s][t][u] = uncout[s][t][u];
+						}
+					}
+			Map.getInstance().setMap(newmap);
 	}
 }

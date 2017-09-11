@@ -1,11 +1,14 @@
 package system;
 
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.stream.IntStream;
 
+import densan.s.game.input.KeyInput;
 import object.Tetris;
 import object.Tetris_Empty;
+import object.Tetris_Rect;
 
 /**
  * singletoneパターン<br>
@@ -26,6 +29,10 @@ public class Map {
 	//使うか未定
 	private int[][][] uncontMap = new int[5][5][5];
 	
+/**
+ * 大きさ
+ */
+	public static final int SIZE =5;
 	
 	/**
 	 * 捜査中のテトリスブロック
@@ -34,7 +41,12 @@ public class Map {
 	/**
 	 * 
 	 */
-	private PointOf3D controllPoint;
+	private PointOf3D firstPoint = new PointOf3D(2, 4, 2);
+	private static final int initX=2;
+	private  static final int initY=4;
+	private static final int initZ=2;	
+	
+	
 	/**
 	 * コンストラクタ
 	 * 配列mapの初期化
@@ -46,13 +58,11 @@ public class Map {
 		//
 		IntStream.range(0, uncontMap.length).forEach(s->IntStream.range(0, uncontMap[s].length).
 				forEach(t->IntStream.range(0, uncontMap[s][t].length).forEach(u->uncontMap[s][t][u]=0)));
-		
+		cotrorling = new Tetris_Rect(new PointOf3D(initX, initY, initZ));
 		//
-		controllPoint = new PointOf3D(2, 4, 2);
-		
 	}
 	
-	
+
 	
 	
 	int count = 0;
@@ -61,9 +71,24 @@ public class Map {
 	 */
 	public void update(){
 		
-		//if()
+	if(KeyInput.isPress(KeyEvent.VK_X)) {
+			System.out.println("x");
+			if(cotrorling.checkMap()) {
+				cotrorling.assignMap();
+	}
+		}
+	if(KeyInput.isPress(KeyEvent.VK_Z)){
+		System.out.println("z");
 		fallDown();
+	}
+	if(KeyInput.isPress(KeyEvent.VK_RIGHT)){
+		System.out.println("RIGHT");
+		cotrorling.Rotate_1();
 		
+	}
+	if(KeyInput.isPress(KeyEvent.VK_LEFT)){
+		cotrorling.Rotate_2();
+	}
 		count++;
 	}
 	
@@ -171,6 +196,10 @@ public class Map {
 				forEach(t->IntStream.range(0, map[s][t].length).forEach(u->System.out.print(map[s][t][u]))));
 	}
 	
+	public void putoutuncout(){
+		IntStream.range(0, map.length).forEach(s->IntStream.range(0, map[s].length).
+				forEach(t->IntStream.range(0, map[s][t].length).forEach(u->System.out.print(uncontMap[s][t][u]))));
+	}
 	/**
 	 * mapのゲッター
 	 * @return
@@ -184,6 +213,13 @@ public class Map {
 	 */
 	public int[][][] getUncotrolMap(){
 		return uncontMap;
+	}
+	/**
+	 * map セッター
+	 * @param a
+	 */
+	public void setMap(int[][][]  a) {
+		map=a;
 	}
 	
 	/*
