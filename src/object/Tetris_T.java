@@ -1,24 +1,23 @@
 package object;
+
+import system.PointOf3D;
+
 /**
 *T型のテトリス
 *
  */
-public class Tetris_T implements Tetris{
+public class Tetris_T extends Tetris{
 
 
 
-	public class Tetris_T(PointOf3D controllPoint){
+	public Tetris_T(PointOf3D controllPoint){
 
 		super(controllPoint);
 
-		PointList.add(new PointOf3D(0,0,0));
-		PointList.add(new PointOf3D(0,-1,0));
-		PointList.add(new PointOf3D(-1,-1,0));
-		PointList.add(new PointOf3D(1,-1,0));
-		if(checkMap()){
-			
-		}
-		assignMap();
+		pointList.add(new PointOf3D(0,0,0));
+		pointList.add(new PointOf3D(0,-1,0));
+		pointList.add(new PointOf3D(-1,-1,0));
+		pointList.add(new PointOf3D(1,-1,0));
 	}
 
 
@@ -26,5 +25,6 @@ public class Tetris_T implements Tetris{
 	public int getType() {
 		// TODO Auto-generated method stub
 		return TetrisList.T.getTetrisNumber();
+	}
 
 }

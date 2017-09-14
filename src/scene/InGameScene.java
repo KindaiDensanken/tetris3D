@@ -25,12 +25,14 @@ public class InGameScene implements Updatable{
 		// TODO Auto-generated method stub
 	
 				map.update();
+				/*
 		if(KeyInput.isPress(KeyEvent.VK_UP)) {
 			drawLine++;
 		}
 		if(KeyInput.isPress(KeyEvent.VK_DOWN)){
 			drawLine--;
 		}
+		*/
 	}
 
 	int[][][] list = new int[5][5][5];
@@ -42,20 +44,22 @@ public class InGameScene implements Updatable{
 		d.setFont(new Font("Arial", Font.BOLD , 24));
 		d.drawString(drawLine+":", 20, 20);
 		list = map.getMap();
-		for(int x = 0; x<map.SIZE;x++){
-			for(int z = 0; z < map.SIZE;z++){
+		
+		for(int y=0;y<Map.SIZE;y++)
+		for(int x = 0; x<Map.SIZE;x++){
+			for(int z = 0; z < Map.SIZE;z++){
 				try {
-				int tetrisID = map.getTetris(x, drawLine, z);
+				int tetrisID = map.getTetris(x, y, z);
 				
 				switch (TetrisList.getType(tetrisID)) {
 				case Empty:
 					d.setColor(Color.BLACK);
-					d.fillRect(30 + x*35, 450-z*35, 25, 25);
+					d.fillRect(30 + x*35+200*y, 200-z*35, 25, 25);
 					break;
 
 				default:
 					d.setColor(Color.BLUE);
-					d.fillRect(30 + x*35, 450-z*35, 25, 25);
+					d.fillRect(30 + x*35+200*y, 200-z*35, 25, 25);
 
 					break;
 				}
@@ -66,6 +70,8 @@ public class InGameScene implements Updatable{
 					}
 			}
 		}
+		
+		
 		
 	}
 

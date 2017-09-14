@@ -10,22 +10,17 @@ public class Tetris_Z extends Tetris{
     public Tetris_Z(PointOf3D controllPoint){
         super(controllPoint);
 
-        pointlist.add(new PointOf3D(0,0,0));
-        pointlist.add(new PointOf3D(1,0,0));
-        pointlist.add(new PointOf3D(0,-1,0));
-        pointlist.add(new PointOf3D(0,-1,-1));
-        if(checkMap()){
-            //
-		}
-		assignMap();
+        pointList.add(new PointOf3D(0,0,0));
+        pointList.add(new PointOf3D(1,0,0));
+        pointList.add(new PointOf3D(0,-1,0));
+        pointList.add(new PointOf3D(0,-1,-1));
+      
     }
 
-    @override
     /**
     * @return 3
      */
-
      public int getType(){
-         return Tetris.Z.getTetrisNumber;
+         return TetrisList.Z.getTetrisNumber();
      }
 }

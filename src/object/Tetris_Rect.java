@@ -11,13 +11,17 @@ public class Tetris_Rect extends Tetris{
 		//正方形型のテトリスを表す配列
 		pointList.add(new PointOf3D(0, 0, 0));
 		pointList.add(new PointOf3D(0, 0, 1));
+		/*
 		pointList.add(new PointOf3D(0, -1, 0));
 		pointList.add(new PointOf3D(0, -1, 1));
-		
+		*/
 		pointList.add(new PointOf3D(1, 0, 0));
 		pointList.add(new PointOf3D(1, 0, 1));
+		
+		/*
 		pointList.add(new PointOf3D(1, -1, 0));
 		pointList.add(new PointOf3D(1, -1, 1));
+		*/
 	/*以下のコードはコンストラクタを呼び出した側で行うこと
 
 		if(checkMap()){

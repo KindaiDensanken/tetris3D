@@ -64,8 +64,58 @@ public abstract class Tetris {
 			controllPoint.setZ(temp);
 			return false;
 		}
+		assignMap();
 		return true;
 	}
+	/**
+	 * xz平面でz-1に移動するメソッド
+	 * @return 動けた場合true,動けなかった場合false
+	 */
+	public boolean moveBackward(){
+		int temp = controllPoint.getZ();
+		controllPoint.setZ(temp-1);
+		
+		if(!checkMap()) {
+			controllPoint.setZ(temp);
+			return false;
+		}
+		assignMap();
+		return true;
+	}
+	
+	/**
+	 * xz平面でx+1に移動するメソッド
+	 * @return 動けた場合true,動けなかった場合false
+	 */
+	public boolean moveRight(){
+		int temp = controllPoint.getX();
+		controllPoint.setX(temp+1);
+		
+		if(!checkMap()) {
+			controllPoint.setX(temp);
+			return false;
+		}
+		assignMap();
+		return true;
+	}
+	
+	
+	/**
+	 * xz平面でx+1に移動するメソッド
+	 * @return 動けた場合true,動けなかった場合false
+	 */
+	public boolean moveLeft(){
+		int temp = controllPoint.getX();
+		controllPoint.setX(temp-1);
+		
+		if(!checkMap()) {
+			controllPoint.setX(temp);
+			return false;
+		}
+		assignMap();
+		return true;
+	}
+	
 	
 	/**
 	 * y軸方向にテトリスブロックが90°回転するメソッド
@@ -87,11 +137,11 @@ public abstract class Tetris {
 			System.out.println("rotate_1 succeed");
 			//
 			assignMap();
-			
+			System.out.println("b"+clone.get(1).getX()+"a"+pointList.get(1).getX());
 			return true;
 		}else{
 			System.out.println("rotate_1　failed");
-			pointList = clone;
+			pointList = new ArrayList<>(clone);
 			return false;
 		}
 	}
@@ -109,7 +159,41 @@ public abstract class Tetris {
 			p.rotateY();
 			p.rotateY();
 		}
-		
+		//回転後が正しい座標形態にあるか
+		if(checkMap()){
+			assignMap();
+			return true;
+		}else{
+			pointList = clone;
+			return false;
+		}
+	}
+	
+	public boolean Rotate_3(){
+		ArrayList<PointOf3D> clone = new ArrayList<PointOf3D>(pointList); //回転できなかった場合の為クローン
+		Iterator<PointOf3D> itr = pointList.iterator();
+		while(itr.hasNext()){
+			PointOf3D p = itr.next();
+			p.rotateX();
+			p.rotateX();
+			p.rotateX();
+		}
+		//回転後が正しい座標形態にあるか
+		if(checkMap()){
+			assignMap();
+			return true;
+		}else{
+			pointList = clone;
+			return false;
+		}
+	}
+	public boolean Rotate_4(){
+		ArrayList<PointOf3D> clone = new ArrayList<PointOf3D>(pointList); //回転できなかった場合の為クローン
+		Iterator<PointOf3D> itr = pointList.iterator();
+		while(itr.hasNext()){
+			PointOf3D p = itr.next();
+			p.rotateX();
+		}
 		//回転後が正しい座標形態にあるか
 		if(checkMap()){
 			assignMap();
@@ -128,11 +212,13 @@ public abstract class Tetris {
 		Iterator<PointOf3D> itr = pointList.iterator();
 		while(itr.hasNext()){
 			PointOf3D p = itr.next();
+			
 			int x = controllPoint.getX()+p.getX();
 			int y = controllPoint.getY()+p.getY();
 			int z = controllPoint.getZ()+p.getZ();
+			System.out.println(y);
 			if(x<0||4<x||y<0||4<y||z<0||4<z){
-				System.out.println("checkmap failed 1 x="+x+"y:"+y+"z:");
+				System.out.println("checkmap failed 1 x="+x+" y="+y+" z:"+z);
 				return false;
 			}
 			
@@ -165,9 +251,8 @@ public abstract class Tetris {
 				int z = controllPoint.getZ()+p.getZ();
 				
 				try{
-					Map.getInstance().putoutuncout();
 					newmap[x][y][z]=getType();
-					Map.getInstance().putoutuncout();
+				
 				}catch(ArrayIndexOutOfBoundsException e){
 					//init();
 					e.printStackTrace();
@@ -185,5 +270,23 @@ public abstract class Tetris {
 						}
 					}
 			Map.getInstance().setMap(newmap);
+	}
+	
+	public void adduncoutMap() {
+		Iterator<PointOf3D> itr = pointList.iterator();
+		while(itr.hasNext()){
+			PointOf3D p = itr.next();
+			int x = controllPoint.getX()+p.getX();
+			int y = controllPoint.getY()+p.getY();
+			int z = controllPoint.getZ()+p.getZ();
+			
+			try{
+				Map.getInstance().getUncotrolMap()[x][y][z]=getType();
+			
+			}catch(ArrayIndexOutOfBoundsException e){
+				//init();
+				e.printStackTrace();
+			}
+		}
 	}
 }
