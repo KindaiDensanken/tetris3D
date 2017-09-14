@@ -13,7 +13,8 @@ package object;
 public enum TetrisList {
 	Empty(0),
 	Rect(1),
-	T(2);
+	T(2),
+	Z(3);
 	//要追加
 	private final int tetrisNum;
 //	private final Tetris tetris;
