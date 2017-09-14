@@ -1,7 +1,8 @@
 package object;
 
 import system.PointOf3D;
-
+/**
+*/
 public class Tetris_Rect extends Tetris{
 
 	public Tetris_Rect(PointOf3D controllPoint) {
