@@ -122,7 +122,10 @@ public abstract class Tetris {
 	 * @return boolean　 回転できるかどうか
 	 */
 	public boolean Rotate_1(){
-		ArrayList<PointOf3D> clone = new ArrayList<PointOf3D>(pointList); //回転できなかった場合の為クローン
+		ArrayList<PointOf3D> copy = new ArrayList<PointOf3D>();
+		for(PointOf3D p : pointList){
+			copy.add(p.clone());
+		}
 		Iterator<PointOf3D> itr = pointList.iterator();
 		while(itr.hasNext()){
 			
@@ -137,11 +140,11 @@ public abstract class Tetris {
 			System.out.println("rotate_1 succeed");
 			//
 			assignMap();
-			System.out.println("b"+clone.get(1).getX()+"a"+pointList.get(1).getX());
+			System.out.println("b"+copy.get(1).getX()+"a"+pointList.get(1).getX());
 			return true;
 		}else{
 			System.out.println("rotate_1　failed");
-			pointList = new ArrayList<>(clone);
+			pointList = new ArrayList<>(copy);
 			return false;
 		}
 	}
@@ -151,7 +154,10 @@ public abstract class Tetris {
 	 * @return boolean　回転できるかどうか
 	 */
 	public boolean Rotate_2(){
-		ArrayList<PointOf3D> clone = new ArrayList<PointOf3D>(pointList); //回転できなかった場合の為クローン
+		ArrayList<PointOf3D> clone = new ArrayList<PointOf3D>();
+		for(PointOf3D p : pointList){
+			clone.add(p.clone());
+		}
 		Iterator<PointOf3D> itr = pointList.iterator();
 		while(itr.hasNext()){
 			PointOf3D p = itr.next();
@@ -170,7 +176,10 @@ public abstract class Tetris {
 	}
 	
 	public boolean Rotate_3(){
-		ArrayList<PointOf3D> clone = new ArrayList<PointOf3D>(pointList); //回転できなかった場合の為クローン
+		ArrayList<PointOf3D> clone = new ArrayList<PointOf3D>();
+		for(PointOf3D p : pointList){
+			clone.add(p.clone());
+		}
 		Iterator<PointOf3D> itr = pointList.iterator();
 		while(itr.hasNext()){
 			PointOf3D p = itr.next();
@@ -183,7 +192,7 @@ public abstract class Tetris {
 			assignMap();
 			return true;
 		}else{
-			pointList = clone;
+			pointList = new ArrayList<PointOf3D>(clone);
 			return false;
 		}
 	}
@@ -199,7 +208,7 @@ public abstract class Tetris {
 			assignMap();
 			return true;
 		}else{
-			pointList = clone;
+			pointList = new ArrayList<PointOf3D>(clone);
 			return false;
 		}
 	}
@@ -217,7 +226,7 @@ public abstract class Tetris {
 			int y = controllPoint.getY()+p.getY();
 			int z = controllPoint.getZ()+p.getZ();
 			System.out.println(y);
-			if(x<0||4<x||y<0||4<y||z<0||4<z){
+			if(x<0||MAPSIZE<=x||y<0||z<0||MAPSIZE<=z){
 				System.out.println("checkmap failed 1 x="+x+" y="+y+" z:"+z);
 				return false;
 			}

@@ -122,5 +122,8 @@ public class PointOf3D {
 		p.rotateX(90);
 		p.putout();
 	}
+	public PointOf3D clone(){
+		return new PointOf3D(x,y ,z);
+		}
 	
 }

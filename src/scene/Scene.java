@@ -1,5 +1,7 @@
 package scene;
 
+import densan.s.game.manager.Updatable;
+
 /**
  * シーンの切り替えを担うクラス(fpsとupdateの処理もここで行なっている)
  * 

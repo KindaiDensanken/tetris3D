@@ -10,13 +10,13 @@ public class Tetris_Rect extends Tetris{
 		super(controllPoint);
 		//正方形型のテトリスを表す配列
 		pointList.add(new PointOf3D(0, 0, 0));
-		pointList.add(new PointOf3D(0, 0, 1));
+		pointList.add(new PointOf3D(0, 0,-1));
 		/*
 		pointList.add(new PointOf3D(0, -1, 0));
 		pointList.add(new PointOf3D(0, -1, 1));
 		*/
-		pointList.add(new PointOf3D(1, 0, 0));
-		pointList.add(new PointOf3D(1, 0, 1));
+		pointList.add(new PointOf3D(-1, 0, 0));
+		pointList.add(new PointOf3D(-1, 0, -1));
 		
 		/*
 		pointList.add(new PointOf3D(1, -1, 0));
